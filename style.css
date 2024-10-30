@@ -1,0 +1,22 @@
+#submitDay {
+    background-color: rgb(205, 200, 255);
+    color: black;
+    border: none;
+    margin: auto;
+}
+
+h1.text-center {
+    margin-top: 20px;
+}
+
+thead {
+    border: 2px black;
+}
+
+#scheduleList {
+    border: 2px black;
+}
+
+th {
+    text-align: center;
+}
