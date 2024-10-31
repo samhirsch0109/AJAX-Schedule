@@ -14,6 +14,12 @@ $(document).ready(function () {
     $('#submitDay').on('click', function () {
         const selectedDay = $('#dayInput').val()
 
+        // Validate selected day
+        if (!['A', 'B', 'C', 'D', 'E', 'F', 'G'].includes(selectedDay)) {
+            alert('You need to select a valid letter day!');
+            return;
+        }
+
         {
             $.ajax({
                 url: 'https://api.npoint.io/d62afb01423e308e9037',
