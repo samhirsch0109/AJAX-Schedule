@@ -1,28 +1,35 @@
 $(document).ready(function () {
     const scheduleUrl = 'https://api.npoint.io/d62afb01423e308e9037';
 
-    const bellSchedule = {
-        1: { start: '8:24 AM', end: '9:31 AM' },
-        2: { start: '9:36 AM', end: '10:43 AM' },
-        3: { start: '10:48 AM', end: '11:55 AM' },
-        4: { start: '12:41 PM', end: '1:48 PM' },
-        5: { start: '1:53 PM', end: '3:00 PM' },
-    }
+    const dailySchedule = {
+        A: [1, 2, 3, 5, 6],
+        B: [4, 1, 2, 7, 5],
+        C: [3, 4, 1, 6, 7],
+        D: [2, 3, 4, 5, 6],
+        E: [1, 2, 3, 7, 5],
+        F: [1, 2, 3, 6, 7],
+        G: [3, 4, 7, 5, 6]
+    };
 
     $('#submitDay').on('click', function () {
-        const selectedDay = $('#dayInput').val().trim().toUpperCase();
+        const selectedDay = $('#dayInput').val()
 
-        if (!['A', 'B', 'C', 'D', 'E', 'F', 'G'].includes(selectedDay)) {
-            alert('You need to type a valid letter day!');
-            return;
-
-        } else {
+        {
             $.ajax({
                 url: 'https://api.npoint.io/d62afb01423e308e9037',
                 method: 'GET',
                 success: function (data) {
                     let schedule = data.schedule;
-                    let daySchedule = schedule.filter(classItem => classItem.days.includes(selectedDay));
+                    let dayOrder = dailySchedule[selectedDay]; // Get period order for the day
+                    let daySchedule = []; //array to store data in correct order
+
+                    // Use forEach to build daySchedule in the correct order
+                    dayOrder.forEach(period => {
+                        // Finds the first class item in the schedule array that has a matching period number
+                        let classItem = schedule.find(item => item.period === period);
+                        // If a matching class item is found, it is added to the day's schedule array
+                        if (classItem) daySchedule.push(classItem);
+                    });
                     renderHTML(daySchedule);
                 },
 
